@@ -8,7 +8,9 @@ namespace SapAgent.Entities.Concrete.Config
     public class BackgroundProcessNotify : IEntity
     {
         public int Id { get; set; }
+        public int PureBpId { get; set; }
         public int JobId { get; set; }
+        public int FuncId { get; set; }
         public string FuncName { get; set; }
         public string Desc { get; set; }
         public int Case { get; set; }

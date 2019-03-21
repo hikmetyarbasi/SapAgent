@@ -35,6 +35,8 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
         public virtual DbSet<CustomerProductRl> CustomerProductRls { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<BpNotifyView> BpNotifyViews { get; set; }
+        public virtual DbSet<CustomerProductView> CustomerProductViews { get; set; }
+        public virtual DbSet<ClientMonitoringView> ClientMonitoringViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

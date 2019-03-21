@@ -117,7 +117,7 @@ namespace PrdCheckLocks
         
         private string gtdateField;
         
-        private System.DateTime gttimeField;
+        private string gttimeField;
         
         private string backedField;
         
@@ -348,8 +348,8 @@ namespace PrdCheckLocks
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=16)]
-        public System.DateTime Gttime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
+        public string Gttime
         {
             get
             {

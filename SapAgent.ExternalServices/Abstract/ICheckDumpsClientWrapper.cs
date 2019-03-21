@@ -5,6 +5,6 @@ namespace SapAgent.ExternalServices.Abstract
 {
     public interface ICheckDumpsClientWrapper
     {
-        Task<Rdumpov[]> GetData();
+        Task<ZaygbcsysRdumpov[]> GetData();
     }
 }

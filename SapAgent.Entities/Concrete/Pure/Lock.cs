@@ -43,9 +43,9 @@ namespace SapAgent.Entities.Concrete.Pure
         [StringLength(200)]
         public string GOBJ { get; set; }
 
-        public DateTime? GTDATE { get; set; }
+        public string GTDATE { get; set; }
 
-        public TimeSpan? GTTIME { get; set; }
+        public string GTTIME { get; set; }
 
         [StringLength(10)]
         public string BACKED { get; set; }

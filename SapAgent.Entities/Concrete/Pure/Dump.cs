@@ -10,9 +10,9 @@ namespace SapAgent.Entities.Concrete.Pure
     {
         public int ID { get; set; }
 
-        public DateTime? DATUM { get; set; }
+        public string DATUM { get; set; }
 
-        public TimeSpan? UZEIT { get; set; }
+        public string UZEIT { get; set; }
 
         [StringLength(200)]
         public string AHOST { get; set; }
@@ -42,5 +42,7 @@ namespace SapAgent.Entities.Concrete.Pure
 
         [StringLength(200)]
         public string TID { get; set; }
+
+        public Guid SREQINDEX { get; set; }
     }
 }

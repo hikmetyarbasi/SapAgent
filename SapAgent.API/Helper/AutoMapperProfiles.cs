@@ -17,8 +17,8 @@ namespace SapAgent.API.Helper
     {
         public AutoMapperProfiles()
         {
-            CreateMap<ZaygbssysTbtcjobBkRf, Entities.Concrete.Pure.BackgroundProcess>();
-            CreateMap<Rdumpov, Entities.Concrete.Pure.Dump>();
+            CreateMap<ZaygbssysTbtcjobBkRfChar, Entities.Concrete.Pure.BackgroundProcess>();
+            CreateMap<ZaygbcsysRdumpov, Entities.Concrete.Pure.Dump>();
             CreateMap<ZaygbcsysLocksRf, Entities.Concrete.Pure.Lock>();
             CreateMap<ZaygbcsysMsxxlistV6Rf, Entities.Concrete.Pure.Sm51SysList>();
             CreateMap<UserSession.ZaygbssysUsersessRf, Entities.Concrete.Pure.UserSession>();

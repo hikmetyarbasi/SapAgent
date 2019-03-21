@@ -30,7 +30,7 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
             _entityRepository.Update(entity);
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> filter=null)
+        public Task<List<T>> GetAll(Expression<Func<T, bool>> filter=null)
         {
             return _entityRepository.GetAll(filter);
         }

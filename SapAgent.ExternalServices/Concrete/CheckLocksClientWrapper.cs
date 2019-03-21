@@ -2,6 +2,7 @@
 using SapAgent.ExternalServices.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Text;
@@ -12,27 +13,28 @@ namespace SapAgent.ExternalServices.Concrete
 {
     public class CheckLocksClientWrapper : ICheckLocksClientWrapper
     {
-        private readonly zaygbcsys_ws_chklocks _checkLocksClient;
+        private readonly zaygbcsys_ws_chklocksClient _checkLocksClient;
 
         public CheckLocksClientWrapper()
         {
-            _checkLocksClient = new zaygbcsys_ws_chklocksClient(new CustomBinding()
-            {
-                SendTimeout = new TimeSpan(0, 0, 2, 30),
-                CloseTimeout = new TimeSpan(0, 0, 2, 30),
-                OpenTimeout = new TimeSpan(0, 0, 2, 30),
-                ReceiveTimeout = new TimeSpan(0, 0, 2, 30),
-                Name = "prd",
-                Namespace = "SapAgentApi.CheckLock",
-                Elements = { new TextMessageEncodingBindingElement() { WriteEncoding = Encoding.UTF8, MessageVersion = MessageVersion.Soap11, ReaderQuotas = XmlDictionaryReaderQuotas.Max }, new HttpTransportBindingElement() { MaxBufferSize = int.MaxValue, MaxReceivedMessageSize = int.MaxValue } }
-            }, new EndpointAddress(new Uri("http://aygerpprd.aygsapdom.local:8000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zaygbcsys_ws_chklocks/400/zaygbcsys_ws_chklocks/zaygbcsys_ws_chklocks_bn?sap-client=400")));
+
+            BasicHttpBinding binding = new BasicHttpBinding(BasicHttpSecurityMode.TransportCredentialOnly);
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+            EndpointAddress endpoint = new EndpointAddress("http://AYGERPPRD.AYGAZNET.LOCAL:8000/sap/bc/srt/rfc/sap/zaygbcsys_ws_chklocks/400/zaygbcsys_ws_chklocks_bn/zaygbcsys_ws_chklocks_bn");
+
+            _checkLocksClient = new zaygbcsys_ws_chklocksClient(binding, endpoint);
+            _checkLocksClient.ClientCredentials.UserName.UserName = "Rfc_etalep";
+            _checkLocksClient.ClientCredentials.UserName.Password = "Temp2010";
         }
         public async Task<ZaygbcsysLocksRf[]> GetData()
         {
             try
             {
-                var data = await _checkLocksClient.ZaygbcsysRfcsLocksAsync(new ZaygbcsysRfcsLocksRequest());
-                return data.ZaygbcsysRfcsLocksResponse.EtLockList;
+               return  _checkLocksClient.ZaygbcsysRfcsLocksAsync(new ZaygbcsysRfcsLocks
+               {
+                   IfClient = "", IfEnqArg = "", IfForUser = "" 
+
+               }).GetAwaiter().GetResult().ZaygbcsysRfcsLocksResponse.EtLockList;
             }
             catch (Exception e)
             {

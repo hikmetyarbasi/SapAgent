@@ -178,12 +178,12 @@ namespace PrdCheckDumps
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class Rdumpov
+    public partial class ZaygbcsysRdumpov
     {
         
         private string datumField;
         
-        private System.DateTime uzeitField;
+        private string uzeitField;
         
         private string ahostField;
         
@@ -220,8 +220,8 @@ namespace PrdCheckDumps
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=1)]
-        public System.DateTime Uzeit
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string Uzeit
         {
             get
             {
@@ -381,12 +381,12 @@ namespace PrdCheckDumps
     public partial class ZaygbcsysRfcsChkdumpsResponse
     {
         
-        private Rdumpov[] etDumplistField;
+        private ZaygbcsysRdumpov[] etDumplistField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public Rdumpov[] EtDumplist
+        public ZaygbcsysRdumpov[] EtDumplist
         {
             get
             {

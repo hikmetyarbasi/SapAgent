@@ -12,38 +12,38 @@ namespace SapAgent.Entities.Concrete.Pure
 
         public string JOBNAME { get; set; }
 
-        public DateTime? SDLSTRTDT { get; set; }
+        public string SDLSTRTDT { get; set; }
 
-        public TimeSpan? SDLSTRTTM { get; set; }
+        public string SDLSTRTTM { get; set; }
 
-        public DateTime? SDLDATE { get; set; }
+        public string SDLDATE { get; set; }
 
-        public TimeSpan? SDLTIME { get; set; }
+        public string SDLTIME { get; set; }
 
         [StringLength(100)]
         public string SDLUNAME { get; set; }
 
-        public DateTime? LASTCHDATE { get; set; }
+        public string LASTCHDATE { get; set; }
 
-        public TimeSpan? LASTCHTIME { get; set; }
+        public string LASTCHTIME { get; set; }
 
         [StringLength(100)]
         public string LASTCHNAME { get; set; }
 
-        public DateTime? RELDATE { get; set; }
+        public string RELDATE { get; set; }
 
-        public TimeSpan? RELTIME { get; set; }
+        public string RELTIME { get; set; }
 
         [StringLength(50)]
         public string RELUNAME { get; set; }
 
-        public DateTime? STRTDATE { get; set; }
+        public string STRTDATE { get; set; }
 
-        public TimeSpan? STRTTIME { get; set; }
+        public string STRTTIME { get; set; }
 
-        public DateTime? ENDDATE { get; set; }
+        public string ENDDATE { get; set; }
 
-        public TimeSpan? ENDTIME { get; set; }
+        public string ENDTIME { get; set; }
 
         public int? PRDMINS { get; set; }
 
@@ -81,9 +81,9 @@ namespace SapAgent.Entities.Concrete.Pure
         [StringLength(100)]
         public string JOBLOG { get; set; }
 
-        public DateTime? LASTSTRTDT { get; set; }
+        public string LASTSTRTDT { get; set; }
 
-        public TimeSpan? LASTSTRTTM { get; set; }
+        public string LASTSTRTTM { get; set; }
 
         public int? WPNUMBER { get; set; }
 

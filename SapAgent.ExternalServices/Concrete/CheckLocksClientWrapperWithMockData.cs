@@ -34,7 +34,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="X",
                           LockDuration=333693
                       },
@@ -55,7 +55,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="X",
                           LockDuration=333693
                       },
@@ -76,7 +76,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="X",
                           LockDuration=333690
                       },
@@ -97,7 +97,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="X",
                           LockDuration=333690
                       },
@@ -118,7 +118,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="",
                           LockDuration=14750
                       },
@@ -139,7 +139,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="",
                           LockDuration=14094
                       },new ZaygbcsysLocksRf{
@@ -159,7 +159,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="",
                           LockDuration=11909
                       },
@@ -180,7 +180,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="",
                           LockDuration=11901
                       },
@@ -201,7 +201,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="",
                           LockDuration=8961
                       },
@@ -222,7 +222,7 @@ namespace SapAgent.ExternalServices.Concrete
                           GsourceId="",
                           GsourceComponent="",
                           Gtdate="21.10.2018",
-                          Gttime=new DateTime(),
+                          Gttime="",
                           Backed="",
                           LockDuration=2151
                       },

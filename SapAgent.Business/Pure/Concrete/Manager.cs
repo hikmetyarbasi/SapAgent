@@ -42,7 +42,7 @@ namespace SapAgent.Business.Pure.Concrete
 
         public List<T> GetAll(Expression<Func<T, bool>> filter)
         {
-           return  _entityRepository.GetAll(filter);
+           return  _entityRepository.GetAll(filter).Result;
         }
 
         public virtual void UpFlag(Guid sRIndex)

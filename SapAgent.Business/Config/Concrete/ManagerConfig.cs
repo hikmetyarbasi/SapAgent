@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Helpers.Abstract;
 using SapAgent.Business.Config.Abstract;
 using SapAgent.DataAccess.Abstract;
@@ -14,43 +15,29 @@ namespace SapAgent.Business.Config.Concrete
     public class ManagerConfig<T> : IManagerConfig<T> where T : class, IEntity, new()
     {
         public readonly IBaseDal<T> _dal;
-        private readonly IHttpClientHelper<T> _httpClient;
-        private readonly IBaseDal<CustomerProductView> _productDal;
 
-        public ManagerConfig(IBaseDal<T> entityRepository, IBaseDal<CustomerProductView> productDal, IHttpClientHelper<T> httpClient=null)
+        public ManagerConfig(IBaseDal<T> entityRepository)
         {
             _dal = entityRepository;
-            _productDal = productDal;
-            _httpClient = httpClient;
         }
-        public List<T> GetAll(Expression<Func<T, bool>> filter)
+        public async Task<List<T>> GetAll(Expression<Func<T, bool>> filter)
         {
-            return _dal.GetAll(filter);
+            return await _dal.GetAll(filter);
         }
 
-        public virtual void StartOperation()
+        public virtual void StartOperation(int productId)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<BpNotifyView> GetCurrentStateOfNotify()
+        public void UpFlag(Guid sRIndex)
         {
             throw new NotImplementedException();
         }
 
-        public virtual int GetBackgroundProcessTotalJobCount()
+        public void DownFlag()
         {
             throw new NotImplementedException();
-        }
-
-        public virtual List<Product> GetProduct()
-        {
-            var list=_productDal.GetAll().GroupBy(x=>new{x.CustomerId,x.CustomerName,x.ProductId,x.ProductName}).Select(y=>new Product()
-            {
-                ProductName = y.Key.ProductName,
-                Id = y.Key.ProductId
-            }).ToList();
-            return list;
         }
     }
 }

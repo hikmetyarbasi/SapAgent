@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SapAgent.API.Helper;
-using SapAgent.API.Model;
+using SapAgent.Entities.Concrete.Config;
 
 namespace SapAgent.API.Controllers
 {
@@ -24,13 +24,13 @@ namespace SapAgent.API.Controllers
         }
 
         [HttpPost]
-        [Route("api/BackgroundProcessChart1")]
-        public async Task<string> BackgroundProcessChart1([FromBody]BackgroundProcessNotify alert)
+        [Route("api/dashboardUpdate")]
+        public async Task<string> DashboardUpdate([FromBody]BackgroundProcessNotify alert)
         {
             string retMessage;
             try
             {
-                await _hubContext.Clients.All.BroadcastMessage("Background Process","Chart Updated..");
+                await _hubContext.Clients.All.BroadcastMessage("Dashboard Updater","Dashboard Updated..");
                 retMessage = "Success";
             }
             catch (Exception e)

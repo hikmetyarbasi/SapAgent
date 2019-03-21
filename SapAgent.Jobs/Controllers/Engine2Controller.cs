@@ -10,11 +10,13 @@ namespace SapAgent.Jobs.Controllers
     [ApiController]
     public class Engine2Controller : ControllerBase
     {
-        private readonly IManagerConfig<Entities.Concrete.Config.BackgroundProcess> _backgroundProcessManager;
+        private readonly int _customerId = 1;
+        private readonly IManagerConfig<Entities.Concrete.Config.BackgroundProcess> _backgroundProcessConfigManager;
+        private readonly IManagerConfig<Entities.Concrete.Config.Dump> _dumpConfigManager;
 
         public Engine2Controller(IManagerConfig<Entities.Concrete.Config.BackgroundProcess> backgroundProcessManager)
         {
-            _backgroundProcessManager = backgroundProcessManager;
+            _backgroundProcessConfigManager = backgroundProcessManager;
         }
 
         // GET api/values
@@ -22,7 +24,7 @@ namespace SapAgent.Jobs.Controllers
         public ActionResult<IEnumerable<string>> Get()
         {
             //var jobId = BackgroundJob.Enqueue(() => BackgroundProcessJob());
-            RecurringJob.AddOrUpdate(() => BackgroundProcessJob(), Cron.Minutely);
+            //RecurringJob.AddOrUpdate(() => BackgroundProcessJob(), Cron.Minutely);
             return Ok("Jobs Scheduled...");
         }
 
@@ -30,7 +32,20 @@ namespace SapAgent.Jobs.Controllers
         {
             try
             {
-                _backgroundProcessManager.StartOperation();
+                _backgroundProcessConfigManager.StartOperation(_customerId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public void DumpJob()
+        {
+            try
+            {
+                _dumpConfigManager.StartOperation(_customerId);
             }
             catch (Exception e)
             {

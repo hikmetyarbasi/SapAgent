@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SapAgent.ExternalServices.Abstract;
 using SapAgent.ExternalServices.Concrete;
-using SystemList;
 using SystemUsages;
 using AutoMapper;
 using SapAgent.API.Helper;
@@ -24,7 +23,8 @@ using SapAgent.DataAccess.Abstract;
 using SapAgent.DataAccess.Concrete.EntityFramework;
 using Helpers.Abstract;
 using Helpers.Concrete;
-using SapAgent.API.Model;
+using SapAgent.Business.General.Abstract;
+using SapAgent.Business.General.Concrete;
 using SapAgent.Business.Pure.Abstract;
 using SapAgent.Business.Pure.Concrete;
 
@@ -64,12 +64,10 @@ namespace SapAgent.API
             services.AddAutoMapper();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Sap Agent API Service", Version = "v1.0", Description = "Sap Ajan Api Servisi" });
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Sap Agent API Service", Version = "v1.0", Description = "Sap Ajans Api Servisi" });
             });
 
             services.AddScoped<IHttpClientHelper<SapAgent.Entities.Concrete.Config.BackgroundProcessNotify>, HttpClientHelper<SapAgent.Entities.Concrete.Config.BackgroundProcessNotify>>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcess>, BackgroundProcessConfigDal>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Config.BackgroundProcess>, EfEntityRepositoryBase<Entities.Concrete.Config.BackgroundProcess, SapAgentContext>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.BackgroundProcess>, HttpClientHelper<Entities.Concrete.Pure.BackgroundProcess>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.Dump>, HttpClientHelper<Entities.Concrete.Pure.Dump>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.Lock>, HttpClientHelper<Entities.Concrete.Pure.Lock>>();
@@ -80,7 +78,7 @@ namespace SapAgent.API
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfo>, HttpClientHelper<Entities.Concrete.Pure.RtmInfo>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>, HttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.SystemUsage>, HttpClientHelper<Entities.Concrete.Pure.SystemUsage>>();
-            
+
 
             services.AddScoped<IManager<Entities.Concrete.Pure.BackgroundProcess>, BackgroundProcessManager>();
             services.AddScoped<IManagerConfig<Entities.Concrete.Config.BackgroundProcess>, BackgroundProcessConfigManager>();
@@ -89,9 +87,13 @@ namespace SapAgent.API
             services.AddScoped<IManager<Entities.Concrete.Pure.Sm51SysList>, SysListManager>();
             services.AddScoped<IManager<Entities.Concrete.Pure.UserSession>, UserSessionManager>();
             services.AddScoped<IManager<Entities.Concrete.Pure.SystemUsage>, SysUsageManager>();
+            services.AddScoped<IManagerGeneral<Entities.Concrete.General.CustomerProductView>, CustomerProductViewManager>();
+            services.AddScoped<IManagerGeneral<Entities.Concrete.General.ClientMonitoringView>, ClientMonitoringManager>();
 
+            services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcess>, BackgroundProcessConfigDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Pure.BackgroundProcess>, BackgroundProcessDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcess>, BackgroundProcessConfigDal>();
+            services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcessNotify>, BackgroundProcessNotifyDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Config.FuncFlag>, FuncFlagDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Pure.Dump>, DumpDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Pure.Lock>, LockDal>();
@@ -101,7 +103,10 @@ namespace SapAgent.API
             services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcessNotify>, NotificationDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Spa.BpNotifyView>, BpNotifyViewDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.General.CustomerProductRl>, CustomerProductRlDal>();
+            services.AddScoped<IBaseDal<Entities.Concrete.General.CustomerProductView>, CustomerProductViewDal>();
+            services.AddScoped<IBaseDal<Entities.Concrete.General.ClientMonitoringView>, ClientMonitoringDal>();
 
+            services.AddScoped<IEntityRepository<Entities.Concrete.Config.BackgroundProcess>, EfEntityRepositoryBase<Entities.Concrete.Config.BackgroundProcess, SapAgentContext>>();
             services.AddScoped<IEntityRepository<Entities.Concrete.Pure.BackgroundProcess>, EfEntityRepositoryBase<Entities.Concrete.Pure.BackgroundProcess, SapAgentContext>>();
             services.AddScoped<IEntityRepository<Entities.Concrete.Config.BackgroundProcess>, EfEntityRepositoryBase<Entities.Concrete.Config.BackgroundProcess, SapAgentContext>>();
             services.AddScoped<IEntityRepository<Entities.Concrete.Pure.Dump>, EfEntityRepositoryBase<Entities.Concrete.Pure.Dump, SapAgentContext>>();
@@ -113,6 +118,8 @@ namespace SapAgent.API
             services.AddScoped<IEntityRepository<Entities.Concrete.Config.BackgroundProcessNotify>, EfEntityRepositoryBase<Entities.Concrete.Config.BackgroundProcessNotify, SapAgentContext>>();
             services.AddScoped<IEntityRepository<Entities.Concrete.Spa.BpNotifyView>, EfEntityRepositoryBase<Entities.Concrete.Spa.BpNotifyView, SapAgentContext>>();
             services.AddScoped<IEntityRepository<Entities.Concrete.General.CustomerProductRl>, EfEntityRepositoryBase<Entities.Concrete.General.CustomerProductRl, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Entities.Concrete.General.CustomerProductView>, EfEntityRepositoryBase<Entities.Concrete.General.CustomerProductView, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Entities.Concrete.General.ClientMonitoringView>, EfEntityRepositoryBase<Entities.Concrete.General.ClientMonitoringView, SapAgentContext>>();
 
 
             var backgroundProcessEndPoint = Configuration.GetSection("Endpoints:SapClientBackGroundProcessEndpointAddress").Value;
@@ -122,7 +129,7 @@ namespace SapAgent.API
             var systemUsageEndPoint = Configuration.GetSection("Endpoints:SapClientSystemUsageEndpointAddress").Value;
             var userSessionEndPoint = Configuration.GetSection("Endpoints:SapClientUserSessionEndpointAddress").Value;
 
-            services.AddSingleton<zaygbcsys_ws_bckgprc>(new zaygbcsys_ws_bckgprcClient(new CustomBinding()
+            services.AddSingleton<ZAYGBCSYS_WS_BCKGPRC>(new ZaygbssysTbtcjobBkRf(new CustomBinding()
             {
                 SendTimeout = new TimeSpan(0, 0, 2, 30),
                 CloseTimeout = new TimeSpan(0, 0, 2, 30),

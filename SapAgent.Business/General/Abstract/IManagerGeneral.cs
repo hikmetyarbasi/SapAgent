@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using SapAgent.Entities.Concrete.General;
+using SapAgent.Entities.Concrete.General.Dto;
 using SapAgent.Entities.Concrete.Spa;
 
 namespace SapAgent.Business.General.Abstract
@@ -11,5 +12,6 @@ namespace SapAgent.Business.General.Abstract
     {
         List<T> GetAll(Expression<Func<T, bool>> filter);
         List<Product> GetProducts(int customerId);
+        Client Get(int customerProductId);
     }
 }

@@ -13,6 +13,5 @@ namespace SapAgent.Entities.Concrete.General
         public string Description { get; set; }
         public bool Enable { get; set; }
         public DateTime InsertDate { get; set; }
-
     }
 }

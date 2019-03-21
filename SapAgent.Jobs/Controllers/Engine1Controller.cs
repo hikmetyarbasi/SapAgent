@@ -51,17 +51,22 @@ namespace SapAgent.Jobs.Controllers
 
             _backgroundProcessManager.UpFlag(serviceReqTime);
 
+            _engine2Controller.BackgroundProcessJob();
+
         }
 
         public async Task DumpJobs()
         {
             var data = await _dumpManager.Get("Agent/GetCheckDumpsData");
-
+            var serviceReqTime = Guid.NewGuid();
             foreach (var item in data)
             {
+                item.SREQINDEX = serviceReqTime;
                 _dumpManager.Add(item);
             }
+            _dumpManager.UpFlag(serviceReqTime);
 
+            _engine2Controller.DumpJob();
         }
         public async Task LockJobs()
         {
@@ -106,9 +111,9 @@ namespace SapAgent.Jobs.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var jobId = BackgroundJob.Enqueue(() => BackgroundProcessJob());
+            //var jobId = BackgroundJob.Enqueue(() => BackgroundProcessJob());
             //RecurringJob.AddOrUpdate(() => BackgroundProcessJob(), Cron.Minutely);
-            //RecurringJob.AddOrUpdate(() => DumpJobs(), Cron.Minutely);
+            RecurringJob.AddOrUpdate(() => DumpJobs(), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => LockJobs(), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => SysListJobs(), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => UserSessionJobs(), Cron.Minutely);

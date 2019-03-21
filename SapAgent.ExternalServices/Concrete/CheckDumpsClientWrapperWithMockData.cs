@@ -11,7 +11,7 @@ namespace SapAgent.ExternalServices.Concrete
     {
       
 
-        public async Task<Rdumpov[]> GetData()
+        public async Task<ZaygbcsysRdumpov[]> GetData()
         {
             return new ZaygbcsysRfcsChkdumpsResponse1
             {
@@ -19,10 +19,10 @@ namespace SapAgent.ExternalServices.Concrete
                 {
                     EtDumplist = new[]
                     {
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit ="",
                             Ahost = "AYGERPAPP1_AEP_00",
                             Uname = "11220001",
                             Mandt = "400",
@@ -34,10 +34,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 21,
                             Tid = "31D51C0700060190E005BB4F81A59111"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit = "",
                             Ahost = "AYGERPPR1_AEP_00",
                             Uname = "10807965",
                             Mandt = "400",
@@ -49,10 +49,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 4,
                             Tid = "8899B50D73550040E005BB4F8507172C"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit = "",
                             Ahost = "AYGERPPR2_AEP_00",
                             Uname = "10808594",
                             Mandt = "400",
@@ -64,10 +64,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 27,
                             Tid = "7724F573320501B0E005BB4F89FB9991"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit = "",
                             Ahost = "AYGERPPRD_AEP_00",
                             Uname = "10805421",
                             Mandt = "400",
@@ -79,10 +79,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 38,
                             Tid = "DD4E549057110040E005BB4F925036D8"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit = "",
                             Ahost = "AYGERPPR1_AEP_00",
                             Uname = "SOLMAN",
                             Mandt = "400",
@@ -94,10 +94,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 32,
                             Tid = "5BC43DE1100A192AE1000000D40C8042"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit ="",
                             Ahost = "AYGERPPRD_AEP_00",
                             Uname = "10805421",
                             Mandt = "400",
@@ -109,10 +109,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 37,
                             Tid = "DD4E549057110260E005BB4F927BF870"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit = "",
                             Ahost = "AYGERPAPP1_AEP_00",
                             Uname = "JOBFI",
                             Mandt = "400",
@@ -124,10 +124,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 72,
                             Tid = "31D51C0700060480E005BB4F81ECFFCD"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit ="",
                             Ahost = "AYGERPPR1_AEP_00",
                             Uname = "JOBFI",
                             Mandt = "400",
@@ -139,10 +139,10 @@ namespace SapAgent.ExternalServices.Concrete
                             Modno = 72,
                             Tid = "31D51C0700060480E005BB4F81ECFFCD"
                         },
-                        new Rdumpov()
+                        new ZaygbcsysRdumpov()
                         {
                             Datum = "15.10.2018",
-                            Uzeit = new DateTime(),
+                            Uzeit = "",
                             Ahost = "AYGERPPR1_AEP_00",
                             Uname = "JOBFI",
                             Mandt = "406",

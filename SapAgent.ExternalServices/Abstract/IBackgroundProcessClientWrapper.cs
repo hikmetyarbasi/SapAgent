@@ -8,6 +8,6 @@ namespace SapAgent.ExternalServices.Abstract
 {
     public interface IBackgroundProcessClientWrapper
     {
-        Task<ZaygbssysTbtcjobBkRf[]> GetData();
+        Task<ZaygbssysTbtcjobBkRfChar[]> GetData();
     }
 }

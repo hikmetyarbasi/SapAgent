@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SapAgent.DataAccess.Abstract;
 using SapAgent.Entities.Abstract;
@@ -14,9 +15,8 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
     {
-        private IEntityRepository<TEntity> _entityRepositoryImplementation;
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {

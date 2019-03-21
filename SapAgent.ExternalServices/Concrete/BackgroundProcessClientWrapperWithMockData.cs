@@ -9,7 +9,7 @@ namespace SapAgent.ExternalServices.Concrete
 {
     public class BackgroundProcessClientWrapperWithMockData : IBackgroundProcessClientWrapper
     {
-        public async Task<ZaygbssysTbtcjobBkRf[]> GetData()
+        public async Task<ZaygbssysTbtcjobBkRfChar[]> GetData()
         {
             var repsonse = new ZaygbcsysRfcsBckgprcResponse1()
             {
@@ -17,7 +17,7 @@ namespace SapAgent.ExternalServices.Concrete
                 {
                     EtJoblist = new[]
                     {
-                        new ZaygbssysTbtcjobBkRf()
+                        new ZaygbssysTbtcjobBkRfChar()
                         {
                             Jobname ="E ARŞIV HATALI IŞLEME",
                             Jobcount = "13083401",
@@ -25,21 +25,21 @@ namespace SapAgent.ExternalServices.Concrete
                             Intreport = "%NEWSTEP",
                             Stepcount= 1,
                             Sdlstrtdt = "15.10.2018",
-                            Sdlstrttm = new DateTime(),
+                            Sdlstrttm = "",
                             Btcsystem = "",
                             Sdldate = "15.10.2018",
-                            Sdltime = new DateTime(),
+                            Sdltime = "",
                             Sdluname = "10805121",
                             Lastchdate = "14.07.2018",
-                            Lastchtime = new DateTime(),
+                            Lastchtime = "",
                             Lastchname = "FFFETHIY",
                             Reldate = "15.10.2018",
-                            Reltime = new DateTime(),
+                            Reltime = "",
                             Reluname = "SAPSYS",
                             Strtdate = "15.10.2018",
-                            Strttime = new DateTime(),
+                            Strttime = "",
                             Enddate = "15.10.2018",
-                            Endtime = new DateTime(),
+                            Endtime = "",
                             Prdmins = "2",
                             Prdhours = "0",
                             Prddays = "0",
@@ -56,7 +56,7 @@ namespace SapAgent.ExternalServices.Concrete
                             Prednum = 0,
                             Joblog = "JOBLGX13083401X83303",
                             Laststrtdt = "15.10.2018",
-                            Laststrttm = new DateTime(),
+                            Laststrttm = "",
                             Wpnumber = 77,
                             Wpprocid = 4044,
                             Eventid = "",

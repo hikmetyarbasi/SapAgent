@@ -1,19 +1,28 @@
 ﻿using Hangfire;
+using Helpers.Abstract;
+using Helpers.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SapAgent.Business.Config.Abstract;
+using SapAgent.Business.Config.Concrete;
+using SapAgent.Business.Config.Concrete.Dmp;
+using SapAgent.Business.General.Abstract;
+using SapAgent.Business.General.Concrete;
+using SapAgent.Business.Pure.Abstract;
+using SapAgent.Business.Pure.Concrete;
 using SapAgent.DataAccess.Abstract;
 using SapAgent.DataAccess.Concrete.EntityFramework;
-using Helpers.Abstract;
-using Helpers.Concrete;
-using SapAgent.Business.Pure.Concrete;
-using SapAgent.Business.Pure.Abstract;
-using SapAgent.Business.Config.Concrete;
-using SapAgent.Business.Config.Abstract;
 using SapAgent.Entities.Concrete.Config;
+using SapAgent.Entities.Concrete.General;
+using SapAgent.Entities.Concrete.Pure;
+using SapAgent.Entities.Concrete.Spa;
 using SapAgent.Jobs.Controllers;
+using BackgroundProcess = SapAgent.Entities.Concrete.Pure.BackgroundProcess;
+using BackgroundProcessNotify = SapAgent.Entities.Concrete.Config.BackgroundProcessNotify;
+using Dump = SapAgent.Entities.Concrete.Pure.Dump;
 
 namespace SapAgent.Jobs
 {
@@ -39,49 +48,55 @@ namespace SapAgent.Jobs
             }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<SapAgentContext>();
-            services.AddHangfire(x => x.UseSqlServerStorage("Data Source =185.122.201.43,1433;initial catalog=HangFire;User Id=hikmetyarbasi;password=123456;"));
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.BackgroundProcess>, HttpClientHelper<Entities.Concrete.Pure.BackgroundProcess>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.Dump>, HttpClientHelper<Entities.Concrete.Pure.Dump>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.Lock>, HttpClientHelper<Entities.Concrete.Pure.Lock>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.Sm51SysList>, HttpClientHelper<Entities.Concrete.Pure.Sm51SysList>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.UserSession>, HttpClientHelper<Entities.Concrete.Pure.UserSession>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.SystemUsage>, HttpClientHelper<Entities.Concrete.Pure.SystemUsage>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.SystemVersion>, HttpClientHelper<Entities.Concrete.Pure.SystemVersion>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfo>, HttpClientHelper<Entities.Concrete.Pure.RtmInfo>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>, HttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>>();
-            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.SystemUsage>, HttpClientHelper<Entities.Concrete.Pure.SystemUsage>>();
+            services.AddHangfire(x =>
+                x.UseSqlServerStorage("Data Source =185.122.201.43,1433;initial catalog=HangFire;User Id=hikmetyarbasi;password=123456;")
+            //x.UseSqlServerStorage("Data Source =(localdb)\\mssqllocaldb;initial catalog=HangFire;Integrated Security=true;")
+                );
+            services.AddScoped<IHttpClientHelper<BackgroundProcess>, HttpClientHelper<BackgroundProcess>>();
+            services.AddScoped<IHttpClientHelper<Dump>, HttpClientHelper<Dump>>();
+            services.AddScoped<IHttpClientHelper<Lock>, HttpClientHelper<Lock>>();
+            services.AddScoped<IHttpClientHelper<Sm51SysList>, HttpClientHelper<Sm51SysList>>();
+            services.AddScoped<IHttpClientHelper<UserSession>, HttpClientHelper<UserSession>>();
+            services.AddScoped<IHttpClientHelper<SystemUsage>, HttpClientHelper<SystemUsage>>();
+            services.AddScoped<IHttpClientHelper<SystemVersion>, HttpClientHelper<SystemVersion>>();
+            services.AddScoped<IHttpClientHelper<RtmInfo>, HttpClientHelper<RtmInfo>>();
+            services.AddScoped<IHttpClientHelper<RtmInfoBase>, HttpClientHelper<RtmInfoBase>>();
+            services.AddScoped<IHttpClientHelper<SystemUsage>, HttpClientHelper<SystemUsage>>();
             services.AddScoped<IHttpClientHelper<BackgroundProcessNotify>, HttpClientHelper<BackgroundProcessNotify>>();
 
-            services.AddScoped<IManager<Entities.Concrete.Pure.BackgroundProcess>, BackgroundProcessManager>();
+            services.AddScoped<IManager<BackgroundProcess>, BackgroundProcessManager>();
             services.AddScoped<IManagerConfig<Entities.Concrete.Config.BackgroundProcess>, BackgroundProcessConfigManager>();
-            services.AddScoped<IManager<Entities.Concrete.Pure.Dump>, DumpManager>();
-            services.AddScoped<IManager<Entities.Concrete.Pure.Lock>, LockManager>();
-            services.AddScoped<IManager<Entities.Concrete.Pure.Sm51SysList>, SysListManager>();
-            services.AddScoped<IManager<Entities.Concrete.Pure.UserSession>, UserSessionManager>();
-            services.AddScoped<IManager<Entities.Concrete.Pure.SystemUsage>, SysUsageManager>();
-            services.AddScoped<IManagerConfig<Entities.Concrete.Config.FuncFlag>, FuncFlagManager>();
+            services.AddScoped<IManagerConfig<Entities.Concrete.Config.Dump>, DumpConfigManager>();
+            services.AddScoped<IManagerGeneral<Client>,ClientManager>();
+            services.AddScoped<IManager<Dump>, DumpManager>();
+            services.AddScoped<IManager<Lock>, LockManager>();
+            services.AddScoped<IManager<Sm51SysList>, SysListManager>();
+            services.AddScoped<IManager<UserSession>, UserSessionManager>();
+            services.AddScoped<IManager<SystemUsage>, SysUsageManager>();
 
-            services.AddScoped<IBaseDal<Entities.Concrete.Pure.BackgroundProcess>, BackgroundProcessDal>();
+            services.AddScoped<IBaseDal<BackgroundProcess>, BackgroundProcessDal>();
             services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcess>, BackgroundProcessConfigDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Config.FuncFlag>, FuncFlagDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Pure.Dump>, DumpDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Pure.Lock>, LockDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Pure.Sm51SysList>, SysListDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Pure.UserSession>, UserSessionDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Pure.SystemUsage>, SysUsageDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Config.BackgroundProcessNotify>, NotificationDal>();
-            services.AddScoped<IBaseDal<Entities.Concrete.Spa.BpNotifyView>, BpNotifyViewDal>();
+            services.AddScoped<IBaseDal<FuncFlag>, FuncFlagDal>();
+            services.AddScoped<IBaseDal<Client>, ClientDal>();
+            services.AddScoped<IBaseDal<Dump>, DumpDal>();
+            services.AddScoped<IBaseDal<Lock>, LockDal>();
+            services.AddScoped<IBaseDal<Sm51SysList>, SysListDal>();
+            services.AddScoped<IBaseDal<UserSession>, UserSessionDal>();
+            services.AddScoped<IBaseDal<SystemUsage>, SysUsageDal>();
+            services.AddScoped<IBaseDal<BackgroundProcessNotify>, NotificationDal>();
+            services.AddScoped<IBaseDal<BpNotifyView>, BpNotifyViewDal>();
 
-            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.BackgroundProcess>, EfEntityRepositoryBase<Entities.Concrete.Pure.BackgroundProcess, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<BackgroundProcess>, EfEntityRepositoryBase<BackgroundProcess, SapAgentContext>>();
             services.AddScoped<IEntityRepository<Entities.Concrete.Config.BackgroundProcess>, EfEntityRepositoryBase<Entities.Concrete.Config.BackgroundProcess, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.Dump>, EfEntityRepositoryBase<Entities.Concrete.Pure.Dump, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.Lock>, EfEntityRepositoryBase<Entities.Concrete.Pure.Lock, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.Sm51SysList>, EfEntityRepositoryBase<Entities.Concrete.Pure.Sm51SysList, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.UserSession>, EfEntityRepositoryBase<Entities.Concrete.Pure.UserSession, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.SystemUsage>, EfEntityRepositoryBase<Entities.Concrete.Pure.SystemUsage, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Config.FuncFlag>, EfEntityRepositoryBase<Entities.Concrete.Config.FuncFlag, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Config.BackgroundProcessNotify>, EfEntityRepositoryBase<Entities.Concrete.Config.BackgroundProcessNotify, SapAgentContext>>();
-            services.AddScoped<IEntityRepository<Entities.Concrete.Spa.BpNotifyView>, EfEntityRepositoryBase<Entities.Concrete.Spa.BpNotifyView, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Dump>, EfEntityRepositoryBase<Dump, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Lock>, EfEntityRepositoryBase<Lock, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Sm51SysList>, EfEntityRepositoryBase<Sm51SysList, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<UserSession>, EfEntityRepositoryBase<UserSession, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<SystemUsage>, EfEntityRepositoryBase<SystemUsage, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<FuncFlag>, EfEntityRepositoryBase<FuncFlag, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<BackgroundProcessNotify>, EfEntityRepositoryBase<BackgroundProcessNotify, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<BpNotifyView>, EfEntityRepositoryBase<BpNotifyView, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Client>, EfEntityRepositoryBase<Client, SapAgentContext>>();
 
 
             services.AddTransient<Engine2Controller, Engine2Controller>();

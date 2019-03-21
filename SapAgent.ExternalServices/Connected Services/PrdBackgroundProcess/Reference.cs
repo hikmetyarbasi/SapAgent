@@ -12,11 +12,11 @@ namespace PrdBackgroundProcess
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="PrdBackgroundProcess.zaygbcsys_ws_bckgprc")]
-    public interface zaygbcsys_ws_bckgprc
+    [System.ServiceModel.ServiceContractAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style", ConfigurationName="PrdBackgroundProcess.ZAYGBCSYS_WS_BCKGPRC")]
+    public interface ZAYGBCSYS_WS_BCKGPRC
     {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:zaygbcsys_ws_bckgprc:ZaygbcsysRf" +
+        [System.ServiceModel.OperationContractAttribute(Action="urn:sap-com:document:sap:soap:functions:mc-style:ZAYGBCSYS_WS_BCKGPRC:ZaygbcsysRf" +
             "csBckgprcRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<PrdBackgroundProcess.ZaygbcsysRfcsBckgprcResponse1> ZaygbcsysRfcsBckgprcAsync(PrdBackgroundProcess.ZaygbcsysRfcsBckgprcRequest request);
@@ -29,11 +29,11 @@ namespace PrdBackgroundProcess
     public partial class ZaygbcsysRfcsBckgprc
     {
         
-        private Btcselect isJobselParamsField;
+        private ZaygbcsysBtcselect isJobselParamsField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public Btcselect IsJobselParams
+        public ZaygbcsysBtcselect IsJobselParams
         {
             get
             {
@@ -50,7 +50,7 @@ namespace PrdBackgroundProcess
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class Btcselect
+    public partial class ZaygbcsysBtcselect
     {
         
         private string jobnameField;
@@ -63,11 +63,11 @@ namespace PrdBackgroundProcess
         
         private string fromDateField;
         
-        private System.DateTime? fromTimeField;
+        private string fromTimeField;
         
         private string toDateField;
         
-        private System.DateTime? toTimeField;
+        private string toTimeField;
         
         private string noDateField;
         
@@ -162,8 +162,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=5)]
-        public System.DateTime? FromTime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        public string FromTime
         {
             get
             {
@@ -190,8 +190,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=7)]
-        public System.DateTime? ToTime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        public string ToTime
         {
             get
             {
@@ -362,7 +362,7 @@ namespace PrdBackgroundProcess
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZaygbssysTbtcjobBkRf
+    public partial class ZaygbssysTbtcjobBkRfChar
     {
         
         private string jobnameField;
@@ -377,35 +377,35 @@ namespace PrdBackgroundProcess
         
         private string sdlstrtdtField;
         
-        private System.DateTime sdlstrttmField;
+        private string sdlstrttmField;
         
         private string btcsystemField;
         
         private string sdldateField;
         
-        private System.DateTime sdltimeField;
+        private string sdltimeField;
         
         private string sdlunameField;
         
         private string lastchdateField;
         
-        private System.DateTime lastchtimeField;
+        private string lastchtimeField;
         
         private string lastchnameField;
         
         private string reldateField;
         
-        private System.DateTime reltimeField;
+        private string reltimeField;
         
         private string relunameField;
         
         private string strtdateField;
         
-        private System.DateTime strttimeField;
+        private string strttimeField;
         
         private string enddateField;
         
-        private System.DateTime endtimeField;
+        private string endtimeField;
         
         private string prdminsField;
         
@@ -439,7 +439,7 @@ namespace PrdBackgroundProcess
         
         private string laststrtdtField;
         
-        private System.DateTime laststrttmField;
+        private string laststrttmField;
         
         private int wpnumberField;
         
@@ -576,8 +576,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=6)]
-        public System.DateTime Sdlstrttm
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        public string Sdlstrttm
         {
             get
             {
@@ -618,8 +618,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=9)]
-        public System.DateTime Sdltime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
+        public string Sdltime
         {
             get
             {
@@ -660,8 +660,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=12)]
-        public System.DateTime Lastchtime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
+        public string Lastchtime
         {
             get
             {
@@ -702,8 +702,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=15)]
-        public System.DateTime Reltime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
+        public string Reltime
         {
             get
             {
@@ -744,8 +744,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=18)]
-        public System.DateTime Strttime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
+        public string Strttime
         {
             get
             {
@@ -772,8 +772,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=20)]
-        public System.DateTime Endtime
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
+        public string Endtime
         {
             get
             {
@@ -1010,8 +1010,8 @@ namespace PrdBackgroundProcess
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="time", Order=37)]
-        public System.DateTime Laststrttm
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=37)]
+        public string Laststrttm
         {
             get
             {
@@ -1381,12 +1381,12 @@ namespace PrdBackgroundProcess
     public partial class ZaygbcsysRfcsBckgprcResponse
     {
         
-        private ZaygbssysTbtcjobBkRf[] etJoblistField;
+        private ZaygbssysTbtcjobBkRfChar[] etJoblistField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         [System.Xml.Serialization.XmlArrayItemAttribute("item", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public ZaygbssysTbtcjobBkRf[] EtJoblist
+        public ZaygbssysTbtcjobBkRfChar[] EtJoblist
         {
             get
             {
@@ -1440,22 +1440,22 @@ namespace PrdBackgroundProcess
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    public interface zaygbcsys_ws_bckgprcChannel : PrdBackgroundProcess.zaygbcsys_ws_bckgprc, System.ServiceModel.IClientChannel
+    public interface ZAYGBCSYS_WS_BCKGPRCChannel : PrdBackgroundProcess.ZAYGBCSYS_WS_BCKGPRC, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    public partial class zaygbcsys_ws_bckgprcClient : System.ServiceModel.ClientBase<PrdBackgroundProcess.zaygbcsys_ws_bckgprc>, PrdBackgroundProcess.zaygbcsys_ws_bckgprc
+    public partial class ZaygbssysTbtcjobBkRf : System.ServiceModel.ClientBase<PrdBackgroundProcess.ZAYGBCSYS_WS_BCKGPRC>, PrdBackgroundProcess.ZAYGBCSYS_WS_BCKGPRC
     {
         
-        public zaygbcsys_ws_bckgprcClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public ZaygbssysTbtcjobBkRf(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<PrdBackgroundProcess.ZaygbcsysRfcsBckgprcResponse1> PrdBackgroundProcess.zaygbcsys_ws_bckgprc.ZaygbcsysRfcsBckgprcAsync(PrdBackgroundProcess.ZaygbcsysRfcsBckgprcRequest request)
+        System.Threading.Tasks.Task<PrdBackgroundProcess.ZaygbcsysRfcsBckgprcResponse1> PrdBackgroundProcess.ZAYGBCSYS_WS_BCKGPRC.ZaygbcsysRfcsBckgprcAsync(PrdBackgroundProcess.ZaygbcsysRfcsBckgprcRequest request)
         {
             return base.Channel.ZaygbcsysRfcsBckgprcAsync(request);
         }
@@ -1464,7 +1464,7 @@ namespace PrdBackgroundProcess
         {
             PrdBackgroundProcess.ZaygbcsysRfcsBckgprcRequest inValue = new PrdBackgroundProcess.ZaygbcsysRfcsBckgprcRequest();
             inValue.ZaygbcsysRfcsBckgprc = ZaygbcsysRfcsBckgprc;
-            return ((PrdBackgroundProcess.zaygbcsys_ws_bckgprc)(this)).ZaygbcsysRfcsBckgprcAsync(inValue);
+            return ((PrdBackgroundProcess.ZAYGBCSYS_WS_BCKGPRC)(this)).ZaygbcsysRfcsBckgprcAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

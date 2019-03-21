@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using SapAgent.Business.Config.Abstract;
 using SapAgent.Business.General.Abstract;
 using SapAgent.Entities.Concrete.General;
+using SapAgent.Entities.Concrete.General.Dto;
 using SapAgent.Entities.Concrete.Spa;
+using BackgroundProcessNotify = SapAgent.Entities.Concrete.Config.BackgroundProcessNotify;
 
 namespace SapAgent.API.Controllers
 {
@@ -15,20 +17,24 @@ namespace SapAgent.API.Controllers
     [ApiController]
     public class DashboardController : ControllerBase
     {
-        private readonly IManagerConfig<Entities.Concrete.Config.BackgroundProcess> _managerBackgroundProcessConfig;
+        private readonly IManagerBpConfigManager _managerBackgroundProcessConfig;
         private readonly IManagerGeneral<Entities.Concrete.General.CustomerProductView> _managerProductGeneral;
+        private readonly IManagerGeneral<ClientMonitoringView> _managerClientMonitoringGeneral;
 
-        public DashboardController(IManagerConfig<Entities.Concrete.Config.BackgroundProcess> managerConfig, IManagerGeneral<CustomerProductView> managerProductGeneral)
+        public DashboardController(IManagerBpConfigManager managerConfig,
+            IManagerGeneral<CustomerProductView> managerProductGeneral,
+            IManagerGeneral<ClientMonitoringView> managerClientMonitoringGeneral)
         {
             _managerBackgroundProcessConfig = managerConfig;
             _managerProductGeneral = managerProductGeneral;
+            _managerClientMonitoringGeneral = managerClientMonitoringGeneral;
         }
 
         [HttpGet]
         [Route("GetBackgroundProcessChart1Data")]
-        public List<BpNotifyView> GetBackgroundProcessChart1Data(int customerId)
+        public async Task<List<BpNotifyViewDto>> GetBackgroundProcessChart1Data(int customerId)
         {
-            return _managerBackgroundProcessConfig.GetCurrentStateOfNotify();
+            return await _managerBackgroundProcessConfig.GetCurrentStateOfNotify(customerId);
         }
 
         [HttpGet]
@@ -40,9 +46,22 @@ namespace SapAgent.API.Controllers
 
         [HttpGet]
         [Route("GetProducts")]
-        public List<CustomerProductView> GetProducts(int customerId)
+        public List<Product> GetProducts(int customerId)
         {
-            return _managerProductGeneral.GetAll(x => x.CustomerId == customerId);
+            return _managerProductGeneral.GetProducts(customerId);
         }
+        [HttpGet]
+        [Route("GetClientMonitoringValue")]
+        public ClientMonitoringViewDto GetClientMonitroingValues(int customerProductId)
+        {
+            List<ClientMonitoringView> clientList = _managerClientMonitoringGeneral.GetAll(x => x.CustomerProductId == customerProductId);
+            var customerProductInfo = _managerProductGeneral.GetAll(x => x.CustomerProductId == customerProductId).FirstOrDefault();
+            return new ClientMonitoringViewDto()
+            {
+                ClientMonitoringView = clientList,
+                CustomerProduct = customerProductInfo
+            };
+        }
+
     }
 }

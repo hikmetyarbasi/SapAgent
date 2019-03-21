@@ -11,7 +11,7 @@ namespace SapAgent.DataAccess.Abstract
         T Add(T entity);
         T Get(Expression<Func<T, bool>> filter);
         void Update(T entity);
-        List<T> GetAll(Expression<Func<T, bool>> filter=null);
+        Task<List<T>> GetAll(Expression<Func<T, bool>> filter=null);
         void UpFlag();
         void DownFlag();
     }
