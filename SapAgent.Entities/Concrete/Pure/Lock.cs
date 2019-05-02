@@ -10,6 +10,8 @@ namespace SapAgent.Entities.Concrete.Pure
     {
         public int ID { get; set; }
 
+        public int CustomerId { get; set; }
+
         [StringLength(10)]
         public string GCLIENT { get; set; }
 
@@ -51,5 +53,6 @@ namespace SapAgent.Entities.Concrete.Pure
         public string BACKED { get; set; }
 
         public int? LOCKDURATION { get; set; }
+        public Guid SREQINDEX { get; set; }
     }
 }

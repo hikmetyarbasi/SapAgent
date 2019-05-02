@@ -6,9 +6,11 @@ using SapAgent.Entities.Abstract;
 namespace SapAgent.Entities.Concrete.Pure
 {
     [Table("Dump", Schema = "Pure")]
-    public partial class Dump:IDump
+    public partial class Dump : IDump
     {
-        public int ID { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string TID { get; set; }
 
         public string DATUM { get; set; }
 
@@ -40,9 +42,8 @@ namespace SapAgent.Entities.Concrete.Pure
 
         public int? MODNO { get; set; }
 
-        [StringLength(200)]
-        public string TID { get; set; }
-
         public Guid SREQINDEX { get; set; }
+        public int CustomerId { get; set; }
+        public int ProductId { get; set; }
     }
 }

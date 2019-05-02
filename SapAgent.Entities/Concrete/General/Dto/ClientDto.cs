@@ -18,7 +18,7 @@ namespace SapAgent.Entities.Concrete.General.Dto
     {
         public string LevelName { get; set; }
         public int Amount { get; set; }
-        public Category Category { get; set; }
+        public Level Category { get; set; }
     }
     
 }

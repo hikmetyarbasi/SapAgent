@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SapAgent.API.Helper;
+using SapAgent.API.Model;
 using SapAgent.Entities.Concrete.Config;
 
 namespace SapAgent.API.Controllers
@@ -25,7 +26,7 @@ namespace SapAgent.API.Controllers
 
         [HttpPost]
         [Route("api/dashboardUpdate")]
-        public async Task<string> DashboardUpdate([FromBody]BackgroundProcessNotify alert)
+        public async Task<string> DashboardUpdate([FromBody]DashboardSignalRModel alert)
         {
             string retMessage;
             try

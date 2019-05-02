@@ -6,7 +6,7 @@ namespace SapAgent.DataAccess.Engine1.Abstract
 {
     public interface ISysListDal
     {
-        void Add(Sm51SysList dump);
-        Task<Sm51SysList[]> Get();
+        void Add(SysList dump);
+        Task<SysList[]> Get();
     }
 }

@@ -14,5 +14,7 @@ namespace SapAgent.Business.Pure.Abstract
         List<T> GetAll(Expression<Func<T, bool>> filter);
         void UpFlag(Guid sRIndex);
         void DownFlag();
+        void ExecuteSqlQuery(string sql);
+        void Upsert(T entity);
     }
 }

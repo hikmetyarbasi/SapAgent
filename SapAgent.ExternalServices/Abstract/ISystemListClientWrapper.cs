@@ -11,3 +11,4 @@ namespace SapAgent.ExternalServices.Abstract
         Task<ZaygbcsysMsxxlistV6Rf[]> GetData();
     }
 }
+

@@ -6,7 +6,7 @@ namespace SapAgent.DataAccess.Engine1.Abstract
 {
     public interface ISysUsageDal
     {
-        void Add(SystemUsage dump);
-        Task<SystemUsage[]> Get();
+        void Add(SysUsage dump);
+        Task<SysUsage[]> Get();
     }
 }

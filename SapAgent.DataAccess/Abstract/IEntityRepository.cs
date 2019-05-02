@@ -14,5 +14,7 @@ namespace SapAgent.DataAccess.Abstract
         void Update(T entry);
         T Get(Expression<Func<T, bool>> filter);
         void Delete(T entry);
+        void ExecuteStoreProc(string sql);
+        void Upsert(T entity);
     }
 }

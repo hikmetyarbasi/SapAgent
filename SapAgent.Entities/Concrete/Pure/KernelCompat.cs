@@ -1,27 +1,25 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SapAgent.Entities.Abstract;
 
 namespace SapAgent.Entities.Concrete.Pure
 {
     [Table("KernelCompat", Schema = "Pure")]
-    public partial class KernelCompat
+    public partial class KernelCompat : IEntity
     {
-        public int ID { get; set; }
-
+        [Key]
+        public int Id { get; set; }
         [StringLength(50)]
-        public string TSYSCHECK { get; set; }
-
-        [StringLength(50)]
-        public string UNICODE_SYTEM { get; set; }
+        public string UnicodeSytem { get; set; }
 
         [StringLength(100)]
-        public string SERVERNAME { get; set; }
+        public string Servername { get; set; }
 
         [StringLength(100)]
-        public string HOST { get; set; }
+        public string Host { get; set; }
 
-        public int? KERNELRELEASE { get; set; }
+        public int? KernelRelease { get; set; }
 
-        public int? PATCHLEVEL { get; set; }
+        public int? PatchLevel { get; set; }
     }
 }

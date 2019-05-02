@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
@@ -15,20 +16,23 @@ namespace SapAgent.Jobs.Controllers
     [ApiController]
     public class Engine1Controller : ControllerBase
     {
-        private readonly IManager<Entities.Concrete.Pure.BackgroundProcess> _backgroundProcessManager;
-        private readonly IManager<Entities.Concrete.Pure.Dump> _dumpManager;
-        private readonly IManager<Entities.Concrete.Pure.Lock> _lockManager;
-        private readonly IManager<Entities.Concrete.Pure.Sm51SysList> _sysListManager;
-        private readonly IManager<Entities.Concrete.Pure.UserSession> _userSessionManager;
-        private readonly IManager<Entities.Concrete.Pure.SystemUsage> _sysUsageManager;
+        private readonly IManagerBackgroundProcess _backgroundProcessManager;
+        private readonly IManagerDump _dumpManager;
+        private readonly IManagerLock _lockManager;
+        private readonly IManagerSysList _sysListManager;
+        private readonly IManagerSysFile _sysFileManager;
+        private readonly IManagerUserSession _userSessionManager;
+        private readonly IManagerSysUsage _sysUsageManager;
         private readonly Engine2Controller _engine2Controller;
         public Engine1Controller(
-            IManager<Entities.Concrete.Pure.BackgroundProcess> backgroundProcessManager,
-            IManager<Entities.Concrete.Pure.Dump> dumpManager,
-            IManager<Entities.Concrete.Pure.Lock> lockManager,
-            IManager<Entities.Concrete.Pure.Sm51SysList> sysListManager,
-            IManager<Entities.Concrete.Pure.UserSession> userSessionManager,
-            IManager<Entities.Concrete.Pure.SystemUsage> sysUsageManager, Engine2Controller engine2Controller)
+            IManagerBackgroundProcess backgroundProcessManager,
+            IManagerDump dumpManager,
+            IManagerLock lockManager,
+            IManagerSysList sysListManager,
+            IManagerUserSession userSessionManager,
+            IManagerSysUsage sysUsageManager,
+            Engine2Controller engine2Controller,
+            IManagerSysFile sysFileManager)
         {
             _backgroundProcessManager = backgroundProcessManager;
             _dumpManager = dumpManager;
@@ -37,9 +41,10 @@ namespace SapAgent.Jobs.Controllers
             _userSessionManager = userSessionManager;
             _sysUsageManager = sysUsageManager;
             _engine2Controller = engine2Controller;
+            _sysFileManager = sysFileManager;
         }
 
-        public async Task BackgroundProcessJob()
+        public async Task BackgroundProcessJob(int customerId, int productId)
         {
             var data = await _backgroundProcessManager.Get("Agent/GetBackgroundProcessData");
             var serviceReqTime = Guid.NewGuid();
@@ -55,41 +60,61 @@ namespace SapAgent.Jobs.Controllers
 
         }
 
-        public async Task DumpJobs()
+        public async Task DumpJobs(int customerId, int productId)
         {
             var data = await _dumpManager.Get("Agent/GetCheckDumpsData");
             var serviceReqTime = Guid.NewGuid();
             foreach (var item in data)
             {
+                item.CustomerId = customerId;
+                item.ProductId = productId;
                 item.SREQINDEX = serviceReqTime;
-                _dumpManager.Add(item);
+                var record = _dumpManager.GetAll(x => x.TID == item.TID).FirstOrDefault();
+                if (record == null)
+                {
+                    _dumpManager.Add(item);
+                }
+                else
+                {
+                    record.SREQINDEX = serviceReqTime;
+                    _dumpManager.Update(record);
+                }
             }
             _dumpManager.UpFlag(serviceReqTime);
 
             _engine2Controller.DumpJob();
         }
-        public async Task LockJobs()
+        public async Task LockJobs(int customerId, int productId)
         {
             var data = await _lockManager.Get("Agent/GetCheckLocksData");
-
+            var serviceReqTime = Guid.NewGuid();
             foreach (var item in data)
             {
+                item.SREQINDEX = serviceReqTime;
                 _lockManager.Add(item);
             }
+            _lockManager.UpFlag(serviceReqTime);
+
+            _engine2Controller.LockJob();
 
         }
-        public async Task SysListJobs()
+        public async Task SysListJobs(int customerId, int productId)
         {
-            var data = await _sysListManager.Get("/Agent/GetSystemListData");
-
+            var data = await _sysListManager.Get("Agent/GetSystemListData");
+            var serviceReqTime = Guid.NewGuid();
             foreach (var item in data)
             {
+                item.CustomerId = customerId;
+                item.ProductId = productId;
+                item.SREQINDEX = serviceReqTime;
                 _sysListManager.Add(item);
             }
+            _sysListManager.UpFlag(serviceReqTime);
 
+            _engine2Controller.SysList();
         }
 
-        public async Task UserSessionJobs()
+        public async Task UserSessionJobs(int customerId, int productId)
         {
             var data = await _userSessionManager.Get("Agent/GetUserSessionData");
 
@@ -98,26 +123,61 @@ namespace SapAgent.Jobs.Controllers
                 _userSessionManager.Add(item);
             }
         }
-        public async Task SysUsageJobs()
+        public async Task SysUsageJobs(int customerId, int productId)
         {
             var data = await _sysUsageManager.Get("Agent/GetSystemUsageData");
-
+            var serviceReqTime = Guid.NewGuid();
             foreach (var item in data)
             {
+                item.CustomerId = customerId;
+                item.ProductId = productId;
+                item.SREQINDEX = serviceReqTime;
                 _sysUsageManager.Add(item);
             }
+            _sysUsageManager.UpFlag(serviceReqTime);
+
+            _engine2Controller.SysUsage();
         }
+        public async Task SysFileJobs(int customerId, int productId)
+        {
+            var data = await _sysFileManager.Get("Agent/GetSystemFileData");
+            var serviceReqTime = Guid.NewGuid();
+
+            //_sysFileManager.DownFlag();
+            foreach (var item in data)
+            {
+                item.CustomerId = customerId;
+                item.ProductId = productId;
+                item.SREQINDEX = serviceReqTime;
+                _sysFileManager.Add(item);
+            }
+            _sysFileManager.UpFlag(serviceReqTime);
+
+            _engine2Controller.SysFile();
+        }
+
+        public async Task LockDailyAverage()
+        {
+            _backgroundProcessManager.ExecuteSqlQuery("PROC_CALCCOUNT_LOCKDAILY");
+        }
+        public async Task DumpSetErrorIdAverage()
+        {
+            _dumpManager.ExecuteSqlQuery("PROC_CALCCOUNT_DUMPDAILY");
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            //var jobId = BackgroundJob.Enqueue(() => BackgroundProcessJob());
+            //BackgroundJob.Enqueue(() => DumpJobs(1, 1));
             //RecurringJob.AddOrUpdate(() => BackgroundProcessJob(), Cron.Minutely);
-            RecurringJob.AddOrUpdate(() => DumpJobs(), Cron.Minutely);
+            //RecurringJob.AddOrUpdate(() => DumpJobs(1, 1), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => LockJobs(), Cron.Minutely);
-            //RecurringJob.AddOrUpdate(() => SysListJobs(), Cron.Minutely);
+
+            //RecurringJob.AddOrUpdate(() => SysListJobs(1, 1), Cron.Minutely);
+            RecurringJob.AddOrUpdate(() => SysFileJobs(1, 1), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => UserSessionJobs(), Cron.Minutely);
-            //RecurringJob.AddOrUpdate(() => SysUsageJobs(), Cron.Minutely);
+            //RecurringJob.AddOrUpdate(() => SysUsageJobs(1, 1), Cron.Minutely);
             return Ok("Jobs Scheduled...");
         }
     }

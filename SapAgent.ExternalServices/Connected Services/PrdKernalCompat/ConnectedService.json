@@ -1,0 +1,27 @@
+﻿{
+  "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
+  "Version": "15.0.20628.921",
+  "GettingStartedDocument": {
+    "Uri": "https://go.microsoft.com/fwlink/?linkid=858517"
+  },
+  "ExtendedData": {
+    "Uri": "http://AYGERPPRD.AYGAZNET.LOCAL:8000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zaygbcsys_ws_kernelcompat/400/zaygbcsys_ws_kernelcompat/zaygbcsys_ws_kernelcompat_bn?sap-client=400",
+    "Namespace": "PrdKernalCompat",
+    "SelectedAccessLevelForGeneratedClass": "Public",
+    "GenerateMessageContract": false,
+    "ReuseTypesinReferencedAssemblies": true,
+    "ReuseTypesinAllReferencedAssemblies": true,
+    "CollectionTypeReference": {
+      "Item1": "System.Array",
+      "Item2": "System.Runtime.dll"
+    },
+    "DictionaryCollectionTypeReference": {
+      "Item1": "System.Collections.Generic.Dictionary`2",
+      "Item2": "System.Collections.dll"
+    },
+    "CheckedReferencedAssemblies": [],
+    "InstanceId": null,
+    "Name": "PrdKernalCompat",
+    "Metadata": {}
+  }
+}

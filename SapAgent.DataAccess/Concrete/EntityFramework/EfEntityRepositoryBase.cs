@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 using SapAgent.DataAccess.Abstract;
 using SapAgent.Entities.Abstract;
@@ -32,7 +33,6 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
         {
             try
             {
-
                 using (TContext context = new TContext())
                 {
                     using (var transaction = context.Database.BeginTransaction())
@@ -42,7 +42,6 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
                         context.SaveChanges();
                         transaction.Commit(); // Does not throw.
                     }
-
                 }
                 return entry;
             }
@@ -80,13 +79,39 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
 
         }
 
-        public void ExecuterSqlCommand(string sql)
+        public void ExecuteStoreProc(string sql)
         {
-            //var query = sql;
-            //using (TContext context = new TContext())
-            //{
-            //    context.Database.ExecuteSqlCommand();
-            //}
+            var query = sql;
+            using (TContext context = new TContext())
+            {
+                context.Database.ExecuteSqlCommand(query);
+            }
+        }
+
+        public void Upsert(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var entry = context.Entry(entity);
+                switch (entry.State)
+                {
+                    case EntityState.Detached:
+                        Add(entity);
+                        break;
+                    case EntityState.Modified:
+                        Update(entity);
+                        break;
+                    case EntityState.Added:
+                        Add(entity);
+                        break;
+                    case EntityState.Unchanged:
+                        //item already in db no need to do anything  
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         public TEntity Get(Expression<Func<TEntity, bool>> filter)

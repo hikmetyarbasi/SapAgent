@@ -8,6 +8,8 @@ using PrdCheckLocks;
 using PrdSystemList;
 using PrdSystemUsage;
 using PrdBackgroundProcess;
+using PrdKernalCompat;
+using PrdSystemFile;
 using SapAgent.Entities.Concrete;
 using SapAgent.Entities.Concrete.Pure;
 
@@ -20,7 +22,10 @@ namespace SapAgent.API.Helper
             CreateMap<ZaygbssysTbtcjobBkRfChar, Entities.Concrete.Pure.BackgroundProcess>();
             CreateMap<ZaygbcsysRdumpov, Entities.Concrete.Pure.Dump>();
             CreateMap<ZaygbcsysLocksRf, Entities.Concrete.Pure.Lock>();
-            CreateMap<ZaygbcsysMsxxlistV6Rf, Entities.Concrete.Pure.Sm51SysList>();
+            CreateMap<ZaygbcsysMsxxlistV6Rf, Entities.Concrete.Pure.SysList>();
+            CreateMap<CcmFsysSingle, Entities.Concrete.Pure.SysFile>();
+            CreateMap<ZaygbcsysKernelstatRf, Entities.Concrete.Pure.KernelCompat>();
+
             CreateMap<UserSession.ZaygbssysUsersessRf, Entities.Concrete.Pure.UserSession>();
             CreateMap<CcmSnapAll, Entities.Concrete.Pure.SystemUsageTcpu>().ForMember<string>(dest=>dest.TYPE, opt =>
             {
@@ -30,8 +35,8 @@ namespace SapAgent.API.Helper
             {
                 opt.MapFrom(x => "Mem");
             });
-            CreateMap<SystemUsageTmem, Entities.Concrete.Pure.SystemUsage>();
-            CreateMap<SystemUsageTcpu, Entities.Concrete.Pure.SystemUsage>();
+            CreateMap<SystemUsageTmem, Entities.Concrete.Pure.SysUsage>();
+            CreateMap<SystemUsageTcpu, Entities.Concrete.Pure.SysUsage>();
         }
     }
 }

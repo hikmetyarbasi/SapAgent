@@ -1,46 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Helpers.Abstract;
+using SapAgent.Business.Pure.Abstract;
 using SapAgent.DataAccess.Abstract;
+using SapAgent.Entities.Concrete.Pure;
 
 namespace SapAgent.Business.Pure.Concrete
 {
-    public class BackgroundProcessManager : Manager<Entities.Concrete.Pure.BackgroundProcess>
+    public class BackgroundProcessManager : Manager<BackgroundProcess>, IManagerBackgroundProcess
     {
-        private new const int FunctionId = 1;
-        private readonly IBaseDal<Entities.Concrete.Config.FuncFlag> _funcFlagManager;
-        public BackgroundProcessManager(IBaseDal<Entities.Concrete.Pure.BackgroundProcess> entityRepository, IHttpClientHelper<Entities.Concrete.Pure.BackgroundProcess> httpClient, IBaseDal<Entities.Concrete.Config.FuncFlag> funcFlagManager) :
-            base(entityRepository, httpClient, FunctionId)
+        public new static int FunctionId => 1;
+        public BackgroundProcessManager(
+            IHttpClientHelper<Entities.Concrete.Pure.BackgroundProcess> httpClient,
+            IBaseDal<Entities.Concrete.Config.FuncFlag> funcFlagManager,
+            IBaseDal<BackgroundProcess> bpBaseDal) : base(bpBaseDal, httpClient, FunctionId, funcFlagManager)
         {
-            _funcFlagManager = funcFlagManager;
-        }
-        public override void UpFlag(Guid sRIndex)
-        {
-            try
-            {
-                var entity = _funcFlagManager.Get(o => o.Func == FunctionId);
-                entity.Flag = 1;
-                entity.SReqIndex = sRIndex;
-                _funcFlagManager.Update(entity);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-        public override void DownFlag()
-        {
-            try
-            {
-                var entity = _funcFlagManager.Get(o => o.Func == FunctionId);
-                entity.Flag = 0;
-                _funcFlagManager.Update(entity);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
         }
     }
 }

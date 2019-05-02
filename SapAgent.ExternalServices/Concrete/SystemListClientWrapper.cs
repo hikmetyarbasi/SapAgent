@@ -11,24 +11,22 @@ namespace SapAgent.ExternalServices.Concrete
 {
     public class SystemListClientWrapper : ISystemListClientWrapper
     {
-        private readonly zaygbcsys_ws_systlst _client;
+        private readonly zaygbcsys_ws_systlstClient _client;
 
         public SystemListClientWrapper()
         {
-            _client = new zaygbcsys_ws_systlstClient(new CustomBinding()
-            {
-                SendTimeout = new TimeSpan(0, 0, 2, 30),
-                CloseTimeout = new TimeSpan(0, 0, 2, 30),
-                OpenTimeout = new TimeSpan(0, 0, 2, 30),
-                ReceiveTimeout = new TimeSpan(0, 0, 2, 30),
-                Name = "prd",
-                Namespace = "SapAgentApi.SystemList",
-                Elements = { new TextMessageEncodingBindingElement() { WriteEncoding = Encoding.UTF8, MessageVersion = MessageVersion.Soap11, ReaderQuotas = XmlDictionaryReaderQuotas.Max }, new HttpTransportBindingElement() { MaxBufferSize = int.MaxValue, MaxReceivedMessageSize = int.MaxValue } }
-            }, new EndpointAddress(new Uri("http://aygerpprd.aygsapdom.local:8000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zaygbcsys_ws_systlst/400/zaygbcsys_ws_systlst/zaygbcsys_ws_systlst_bn?sap-client=400")));
+
+            BasicHttpBinding binding = new BasicHttpBinding(BasicHttpSecurityMode.TransportCredentialOnly);
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+            EndpointAddress endpoint = new EndpointAddress("http://AYGERPPRD.AYGAZNET.LOCAL:8000/sap/bc/srt/rfc/sap/zaygbcsys_ws_systlst/400/zaygbcsys_ws_systlst/zaygbcsys_ws_systlst_bn");
+
+            _client = new zaygbcsys_ws_systlstClient(binding, endpoint);
+            _client.ClientCredentials.UserName.UserName = "Rfc_etalep";
+            _client.ClientCredentials.UserName.Password = "Temp2010";
         }
         public async Task<ZaygbcsysMsxxlistV6Rf[]> GetData()
         {
-            var data = await _client.ZaygbcsysRfcsSystlstAsync(new ZaygbcsysRfcsSystlstRequest());
+            var data = await _client.ZaygbcsysRfcsSystlstAsync(new ZaygbcsysRfcsSystlst());
 
             return data.ZaygbcsysRfcsSystlstResponse.EtSysList;
         }

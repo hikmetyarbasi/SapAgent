@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SapAgent.Entities.Concrete.General.@enum
 {
-    public enum Category
+    public enum Level
     {
         warning=0,
         info=1,

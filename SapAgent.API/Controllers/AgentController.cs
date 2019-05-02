@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SapAgent.ExternalServices.Abstract;
 using PrdSystemUsage;
+using SapAgent.Entities.Concrete.Pure;
 
 namespace SapAgent.API.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class AgentController : ControllerBase
@@ -20,6 +23,8 @@ namespace SapAgent.API.Controllers
         private readonly ISystemListClientWrapper _systemListClient;
         private readonly ICheckLocksClientWrapper _checkLocksClient;
         private readonly ISystemUsageClientWrapper _systemUsageClient;
+        private readonly ISystemFileClientWrapper _systemFileClient;
+        private readonly IKernelCompatClientWrapper _kernelCompatClient;
         private readonly IMapper _mapper;
 
         public AgentController(IBackgroundProcessClientWrapper backProcClient,
@@ -28,6 +33,8 @@ namespace SapAgent.API.Controllers
             ISystemListClientWrapper systemListClient,
             ICheckLocksClientWrapper checkLocksClient,
             ISystemUsageClientWrapper systemUsageClient,
+            ISystemFileClientWrapper systemFileClient,
+            IKernelCompatClientWrapper kernelCompatClient,
             IMapper mapper)
         {
             _checkDumpsClient = checkDumpsClient;
@@ -37,7 +44,8 @@ namespace SapAgent.API.Controllers
             _systemUsageClient = systemUsageClient;
             _backProcClient = backProcClient;
             _mapper = mapper;
-
+            _systemFileClient = systemFileClient;
+            _kernelCompatClient = kernelCompatClient;
         }
 
         [HttpGet]
@@ -96,7 +104,7 @@ namespace SapAgent.API.Controllers
             try
             {
                 var syslist = await _systemListClient.GetData();
-                var syslistforReturn = _mapper.Map<List<Entities.Concrete.Pure.Sm51SysList>>(syslist);
+                var syslistforReturn = _mapper.Map<List<Entities.Concrete.Pure.SysList>>(syslist);
                 return Ok(syslistforReturn);
             }
             catch (Exception e)
@@ -105,7 +113,37 @@ namespace SapAgent.API.Controllers
                 return BadRequest(e);
             }
         }
+        [HttpGet]
+        [Route("GetSystemFileData")]
+        public async Task<ActionResult> GetSystemFileData()
+        {
+            try
+            {
+                var sysfile = await _systemFileClient.GetData();
 
+                var sysfileForReturn = new List<SysFile>();
+                foreach (var server in sysfile)
+                {
+                    foreach (var item in server.TFsys)
+                    {
+                        var newFile = new SysFile();
+                        newFile.Capacity = item.Capacity;
+                        newFile.Free = item.Free;
+                        newFile.FreePercent = item.FreePercent;
+                        newFile.Fsysname = item.Fsysname;
+                        newFile.Server = item.Server;
+                        sysfileForReturn.Add(newFile);
+                    }
+
+                }
+                return Ok(sysfileForReturn);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e);
+            }
+        }
         [HttpGet]
         [Route("GetUserSessionData")]
         public async Task<ActionResult> GetUserSessionData()
@@ -136,20 +174,37 @@ namespace SapAgent.API.Controllers
                 }
 
                 var cpusforReturn = _mapper.Map<List<Entities.Concrete.Pure.SystemUsageTcpu>>(cpus);
-                var sysusage1 = _mapper.Map<List<Entities.Concrete.Pure.SystemUsage>>(cpusforReturn);
+                var sysusage1 = _mapper.Map<List<Entities.Concrete.Pure.SysUsage>>(cpusforReturn);
                 var mems = new List<CcmSnapAll>();
                 foreach (var item in sysUsage)
                 {
                     mems.AddRange(item.TMem);
                 }
                 var memsforReturn = _mapper.Map<List<Entities.Concrete.Pure.SystemUsageTmem>>(mems);
-                var sysusage2 = _mapper.Map<List<Entities.Concrete.Pure.SystemUsage>>(memsforReturn);
+                var sysusage2 = _mapper.Map<List<Entities.Concrete.Pure.SysUsage>>(memsforReturn);
                 return Ok(sysusage1.Union(sysusage2).ToList());
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest(e.InnerException?.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetKernelCompatData")]
+        public async Task<ActionResult> GetKernelCompatData()
+        {
+            try
+            {
+                var kernelData = _kernelCompatClient.GetData().Result;
+                var kernelForReturn = _mapper.Map<KernelCompat>(kernelData);
+                return Ok(kernelForReturn);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }
