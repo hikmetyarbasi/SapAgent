@@ -13,7 +13,7 @@ namespace SapAgent.Entities.Concrete.Pure
         public string UnicodeSytem { get; set; }
 
         [StringLength(100)]
-        public string Servername { get; set; }
+        public string ServerName { get; set; }
 
         [StringLength(100)]
         public string Host { get; set; }

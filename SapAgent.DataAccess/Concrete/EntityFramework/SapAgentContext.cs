@@ -18,6 +18,8 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
         }
         public virtual DbSet<Entities.Concrete.Pure.RtmInfo> RtmInfo { get; set; }
         public virtual DbSet<Entities.Concrete.Pure.RtmInfoBase> RtmInfoBase { get; set; }
+        public virtual DbSet<Entities.Concrete.Config.RtmInfo> RtmInfoConfig { get; set; }
+
         public virtual DbSet<Entities.Concrete.Pure.BackgroundProcess> BackgroundProcess { get; set; }
         public virtual DbSet<Entities.Concrete.Config.BackgroundProcess> BackgroundProcessConfig { get; set; }
         public virtual DbSet<Entities.Concrete.Pure.Dump> Dump { get; set; }
@@ -42,6 +44,7 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
         public virtual DbSet<Entities.Concrete.Config.SysListNotify> SysListNotifys { get; set; }
         public virtual DbSet<SysUsageNotify> SysUsageNotifys { get; set; }
         public virtual DbSet<Entities.Concrete.Config.SysFileNotify> SysFileNotifys { get; set; }
+        public virtual DbSet<Entities.Concrete.Config.RtmInfoNotify> RtmInfoNotifys { get; set; }
 
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerProductRl> CustomerProductRls { get; set; }
@@ -59,9 +62,12 @@ namespace SapAgent.DataAccess.Concrete.EntityFramework
         public virtual DbSet<SysListNotifyCountView> SysListNotifyCountViews { get; set; }
         public virtual DbSet<SysFileNotifyDetailView> SysFileNotifyDetailViews { get; set; }
         public virtual DbSet<SysFileNotifyCountView> SysFileNotifyCountViews { get; set; }
+        public virtual DbSet<RtmInfoNotifyDetailView> RtmInfoNotifyDetailViews { get; set; }
+        public virtual DbSet<RtmInfoNotifyCountView> RtmInfoNotifyCountViews { get; set; }
 
         public virtual DbSet<CustomerProductView> CustomerProductViews { get; set; }
         public virtual DbSet<ClientMonitoringView> ClientMonitoringViews { get; set; }
+        public virtual DbSet<Scheduler> Schedulers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -54,7 +54,7 @@ namespace SapAgent.Business.Config.Concrete
         {
             throw new NotImplementedException();
         }
-        public override void StartOperation(int customer, int productId)
+        public override void StartOperation(int customerId, int productId)
         {
             try
             {

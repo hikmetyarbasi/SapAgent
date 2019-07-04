@@ -24,6 +24,9 @@ namespace SapAgent.Jobs.Controllers
         private readonly IManagerUserSession _userSessionManager;
         private readonly IManagerSysUsage _sysUsageManager;
         private readonly Engine2Controller _engine2Controller;
+        private readonly IManagerRtmInfo _rtmInfoManager;
+        private readonly IManagerRtmInfoBase _rtmInfoBaseManager;
+        private readonly IManagerRtmModel _rtmModelManager;
         public Engine1Controller(
             IManagerBackgroundProcess backgroundProcessManager,
             IManagerDump dumpManager,
@@ -32,7 +35,10 @@ namespace SapAgent.Jobs.Controllers
             IManagerUserSession userSessionManager,
             IManagerSysUsage sysUsageManager,
             Engine2Controller engine2Controller,
-            IManagerSysFile sysFileManager)
+            IManagerSysFile sysFileManager,
+            IManagerRtmInfo rtmInfoManager,
+            IManagerRtmInfoBase rtmInfoBaseManager,
+            IManagerRtmModel rtmModelManager)
         {
             _backgroundProcessManager = backgroundProcessManager;
             _dumpManager = dumpManager;
@@ -42,6 +48,9 @@ namespace SapAgent.Jobs.Controllers
             _sysUsageManager = sysUsageManager;
             _engine2Controller = engine2Controller;
             _sysFileManager = sysFileManager;
+            _rtmInfoManager = rtmInfoManager;
+            _rtmInfoBaseManager = rtmInfoBaseManager;
+            _rtmModelManager = rtmModelManager;
         }
 
         public async Task BackgroundProcessJob(int customerId, int productId)
@@ -156,6 +165,29 @@ namespace SapAgent.Jobs.Controllers
             _engine2Controller.SysFile();
         }
 
+        public async Task RtmInfo(int customerId, int productId)
+        {
+
+            //var data = await _rtmModelManager.Get("Agent/GetRtmInfoDataAsync");
+            //var serviceReqTime = Guid.NewGuid();
+
+            //foreach (var rtmBase in data)
+            //{
+            //    rtmBase.RtmBase.CustomerId = customerId;
+            //    rtmBase.RtmBase.ProductId = productId;
+            //    rtmBase.RtmBase.SREQINDEX = serviceReqTime;
+            //    var entity = _rtmInfoBaseManager.Add(rtmBase.RtmBase);
+
+            //    foreach (var rtmChild in rtmBase.RtmInfos)
+            //    {
+            //        rtmChild.BASEID = entity.ID;
+            //        _rtmInfoManager.Add(rtmChild);
+            //    }
+            //}
+            //_rtmModelManager.UpFlag(serviceReqTime);
+            _engine2Controller.RtmInfo();
+        }
+
         public async Task LockDailyAverage()
         {
             _backgroundProcessManager.ExecuteSqlQuery("PROC_CALCCOUNT_LOCKDAILY");
@@ -164,6 +196,7 @@ namespace SapAgent.Jobs.Controllers
         {
             _dumpManager.ExecuteSqlQuery("PROC_CALCCOUNT_DUMPDAILY");
         }
+
 
         // GET api/values
         [HttpGet]
@@ -175,7 +208,7 @@ namespace SapAgent.Jobs.Controllers
             //RecurringJob.AddOrUpdate(() => LockJobs(), Cron.Minutely);
 
             //RecurringJob.AddOrUpdate(() => SysListJobs(1, 1), Cron.Minutely);
-            RecurringJob.AddOrUpdate(() => SysFileJobs(1, 1), Cron.Minutely);
+            //RecurringJob.AddOrUpdate(() => RtmInfo(1, 1), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => UserSessionJobs(), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => SysUsageJobs(1, 1), Cron.Minutely);
             return Ok("Jobs Scheduled...");

@@ -49,10 +49,11 @@ namespace SapAgent.Business.Config.Concrete
             return await Dal.GetAll(filter);
         }
 
-        public virtual void StartOperation(int customer, int productId)
+        public virtual void StartOperation(int customerId, int productId)
         {
             throw new NotImplementedException();
         }
+
         public void UpFlag(Guid sRIndex)
         {
             try

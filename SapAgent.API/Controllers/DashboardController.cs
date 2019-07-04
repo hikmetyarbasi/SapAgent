@@ -26,6 +26,7 @@ namespace SapAgent.API.Controllers
         private readonly IManagerConfigSysUsageManager _managerSysUsageConfig;
         private readonly IManagerConfigSysListManager _managerSysListConfig;
         private readonly IManagerConfigSysFileManager _managerSysFileConfig;
+        private readonly IManagerConfigRtmInfoManager _managerRtmInfoConfig;
 
         public DashboardController(IManagerConfigBpManager managerConfig,
             IManagerGeneralCustomerProduct managerProductGeneral,
@@ -34,7 +35,7 @@ namespace SapAgent.API.Controllers
             IManagerConfigLockManager managerLockConfig,
             IManagerConfigDmpManager managerDumpConfig,
             IManagerConfigSysUsageManager managerSysUsageConfig, IManagerConfigSysListManager managerSysListConfig,
-            IManagerConfigSysFileManager managerSysFileConfig)
+            IManagerConfigSysFileManager managerSysFileConfig, IManagerConfigRtmInfoManager managerRtmInfoConfig)
         {
             _managerBackgroundProcessConfig = managerConfig;
             _managerProductGeneral = managerProductGeneral;
@@ -45,6 +46,7 @@ namespace SapAgent.API.Controllers
             _managerSysUsageConfig = managerSysUsageConfig;
             _managerSysListConfig = managerSysListConfig;
             _managerSysFileConfig = managerSysFileConfig;
+            _managerRtmInfoConfig = managerRtmInfoConfig;
         }
 
         [HttpGet]
@@ -115,6 +117,12 @@ namespace SapAgent.API.Controllers
         public async Task<List<SysFileNotifyDetailView>> GetSysFileNotifyDetailAsync(int customerProductId)
         {
             return await _managerSysFileConfig.GetSysFileNotifyDetail(customerProductId);
+        }
+        [HttpGet]
+        [Route("GetRtmInfoNotifyDetailAsync")]
+        public async Task<List<RtmInfoNotifyDetailView>> GetRtmInfoNotifyDetailAsync(int customerProductId)
+        {
+            return await _managerRtmInfoConfig.GetRtmInfoNotifyDetail(customerProductId);
         }
     }
 }

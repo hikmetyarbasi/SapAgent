@@ -18,8 +18,10 @@ namespace SapAgent.Jobs.Controllers
         private readonly IManagerConfigSysUsageManager _configSysUsageManager;
         private readonly IManagerConfigSysListManager _configSysListManager;
         private readonly IManagerConfigSysFileManager _configSysFileManager;
+        private readonly IManagerConfigRtmInfoBaseManager _configRtmInfoBaseManager;
+        private readonly IManagerConfigRtmInfoManager _configRtmInfoManager;
 
-        public Engine2Controller(IManagerConfigBpManager backgroundProcessManager, IManagerConfigDmpManager dumpConfigManager, IManagerConfigLockManager configLockManager, IManagerConfigSysUsageManager configSysUsageManager, IManagerConfigSysListManager configSysListManager, IManagerConfigSysFileManager configSysFileManager)
+        public Engine2Controller(IManagerConfigBpManager backgroundProcessManager, IManagerConfigDmpManager dumpConfigManager, IManagerConfigLockManager configLockManager, IManagerConfigSysUsageManager configSysUsageManager, IManagerConfigSysListManager configSysListManager, IManagerConfigSysFileManager configSysFileManager, IManagerConfigRtmInfoBaseManager configRtmInfoBaseManager, IManagerConfigRtmInfoManager configRtmInfoManager)
         {
             _backgroundProcessConfigManager = backgroundProcessManager;
             _dumpConfigManager = dumpConfigManager;
@@ -27,6 +29,8 @@ namespace SapAgent.Jobs.Controllers
             _configSysUsageManager = configSysUsageManager;
             _configSysListManager = configSysListManager;
             _configSysFileManager = configSysFileManager;
+            _configRtmInfoBaseManager = configRtmInfoBaseManager;
+            _configRtmInfoManager = configRtmInfoManager;
         }
 
         // GET api/values
@@ -107,7 +111,20 @@ namespace SapAgent.Jobs.Controllers
         {
             try
             {
-                _configSysFileManager.StartOperation(_customerId,productId);
+                _configSysFileManager.StartOperation(_customerId, productId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public void RtmInfo()
+        {
+            try
+            {
+                _configRtmInfoManager.StartOperation(_customerId, productId);
             }
             catch (Exception e)
             {

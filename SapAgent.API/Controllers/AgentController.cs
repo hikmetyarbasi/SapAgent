@@ -8,7 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SapAgent.ExternalServices.Abstract;
 using PrdSystemUsage;
+using SapAgent.API.Model;
+using SapAgent.Business.Pure.Abstract;
+using SapAgent.Entities.Abstract;
 using SapAgent.Entities.Concrete.Pure;
+using SapAgent.Entities.Concrete.Spa.Dto;
 
 namespace SapAgent.API.Controllers
 {
@@ -25,6 +29,7 @@ namespace SapAgent.API.Controllers
         private readonly ISystemUsageClientWrapper _systemUsageClient;
         private readonly ISystemFileClientWrapper _systemFileClient;
         private readonly IKernelCompatClientWrapper _kernelCompatClient;
+        private readonly IRtmInfoClientWrapper _rtmInfoClient;
         private readonly IMapper _mapper;
 
         public AgentController(IBackgroundProcessClientWrapper backProcClient,
@@ -35,7 +40,8 @@ namespace SapAgent.API.Controllers
             ISystemUsageClientWrapper systemUsageClient,
             ISystemFileClientWrapper systemFileClient,
             IKernelCompatClientWrapper kernelCompatClient,
-            IMapper mapper)
+            IMapper mapper,
+            IRtmInfoClientWrapper rtmInfoClient)
         {
             _checkDumpsClient = checkDumpsClient;
             _userSessionClient = userSessionClient;
@@ -44,6 +50,7 @@ namespace SapAgent.API.Controllers
             _systemUsageClient = systemUsageClient;
             _backProcClient = backProcClient;
             _mapper = mapper;
+            _rtmInfoClient = rtmInfoClient;
             _systemFileClient = systemFileClient;
             _kernelCompatClient = kernelCompatClient;
         }
@@ -192,14 +199,64 @@ namespace SapAgent.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetKernelCompatData")]
-        public async Task<ActionResult> GetKernelCompatData()
+        [Route("GetKernelCompatDataAsync")]
+        public async Task<ActionResult> GetKernelCompatDataAsync(int customerId)
         {
             try
             {
-                var kernelData = _kernelCompatClient.GetData().Result;
+                var kernelData = await _kernelCompatClient.GetData();
                 var kernelForReturn = _mapper.Map<KernelCompat>(kernelData);
                 return Ok(kernelForReturn);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetRtmInfoDataAsync")]
+        public async Task<ActionResult> GetRtmInfoDataAsync()
+        {
+
+            try
+            {
+                var rtmForReturn = new List<RtmModel>();
+                var data = await _rtmInfoClient.GetData();
+
+                foreach (var item in data)
+                {
+                    var rtmInfoModel = new RtmModel()
+                    {
+                        RtmBase = new RtmInfoBase()
+                        {
+                            SERVER = item.Server,
+                            STARTUPDATE = item.StartupDate,
+                            STARTUPTIME = item.StartupTime
+                        }
+                    };
+                    foreach (var info in item.TRtinfo)
+                    {
+                        rtmInfoModel.RtmInfos.Add(new RtmInfo()
+                        {
+                            ALLOCSIZE = info.AllocSize,
+                            BUFFER = info.Buffer,
+                            DBACCESS = info.DbAccess,
+                            FREEDIR = info.FreeDir,
+                            FREEDIRP = info.FreeDirP,
+                            FREESIZE = info.FreeSize,
+                            FREESIZEP = info.FreeSizeP,
+                            HITRATIO = info.Hitratio,
+                            MAXOBJCTS = info.MaxObjcts,
+                            MAXSWAPPED = info.MaxSwapped,
+                            NAME = info.Name
+                        });
+                    }
+                    rtmForReturn.Add(rtmInfoModel);
+                }
+
+                return Ok(rtmForReturn);
             }
             catch (Exception e)
             {

@@ -30,6 +30,7 @@ using SapAgent.DataAccess.Concrete.EntityFramework.Config;
 using SapAgent.DataAccess.Concrete.EntityFramework.General;
 using SapAgent.DataAccess.Concrete.EntityFramework.Pure;
 using SapAgent.Entities.Concrete.Spa;
+using SapAgent.Entities.Concrete.Spa.Dto;
 
 namespace SapAgent.API
 {
@@ -73,7 +74,7 @@ namespace SapAgent.API
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.SystemVersion>, HttpClientHelper<Entities.Concrete.Pure.SystemVersion>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfo>, HttpClientHelper<Entities.Concrete.Pure.RtmInfo>>();
             services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>, HttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>>();
-            
+
             services.AddScoped<IManagerBackgroundProcess, BackgroundProcessManager>();
             services.AddScoped<IManagerConfigBpManager, ConfigBackgroundProcessManager>();
             services.AddScoped<IHttpClientHelper<SapAgent.Entities.Concrete.Config.BackgroundProcessNotify>, HttpClientHelper<SapAgent.Entities.Concrete.Config.BackgroundProcessNotify>>();
@@ -157,7 +158,33 @@ namespace SapAgent.API
             services.AddScoped<IManagerConfigSysFileManager, ConfigSysFileManager>();
             services.AddScoped<IManagerSysFile, SysFileManager>();
             services.AddScoped<IManager<Entities.Concrete.Pure.SysFile>, SysFileManager>();
-            
+
+
+            services.AddScoped<IBaseDal<Entities.Concrete.Pure.RtmInfo>, RtmInfoDal>();
+            services.AddScoped<IBaseDal<Entities.Concrete.Config.RtmInfo>, RtmInfoConfigDal>();
+            services.AddScoped<IBaseDal<Entities.Concrete.Config.RtmInfoNotify>, RtmInfoNotifyDal>();
+            services.AddScoped<IBaseDal<RtmInfoNotifyDetailView>, RtmInfoNotifyDetailViewDal>();
+            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.RtmInfo>, EfEntityRepositoryBase<Entities.Concrete.Pure.RtmInfo, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Entities.Concrete.Config.RtmInfo>, EfEntityRepositoryBase<Entities.Concrete.Config.RtmInfo, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<Entities.Concrete.Config.RtmInfoNotify>, EfEntityRepositoryBase<Entities.Concrete.Config.RtmInfoNotify, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<SapAgent.Entities.Concrete.Spa.RtmInfoNotifyDetailView>, EfEntityRepositoryBase<RtmInfoNotifyDetailView, SapAgentContext>>();
+            services.AddScoped<IEntityRepository<SapAgent.Entities.Concrete.Spa.RtmInfoNotifyCountView>, EfEntityRepositoryBase<RtmInfoNotifyCountView, SapAgentContext>>();
+            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfo>, HttpClientHelper<Entities.Concrete.Pure.RtmInfo>>();
+            services.AddScoped<IManagerConfigRtmInfoManager, ConfigRtmInfoManager>();
+            services.AddScoped<IManagerRtmInfo, RtmInfoManager>();
+            services.AddScoped<IManager<Entities.Concrete.Pure.RtmInfo>, RtmInfoManager>();
+
+            services.AddScoped<IBaseDal<Entities.Concrete.Pure.RtmInfoBase>, RtmInfoBaseDal>();
+            services.AddScoped<IEntityRepository<Entities.Concrete.Pure.RtmInfoBase>, EfEntityRepositoryBase<Entities.Concrete.Pure.RtmInfoBase, SapAgentContext>>();
+            services.AddScoped<IHttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>, HttpClientHelper<Entities.Concrete.Pure.RtmInfoBase>>();
+            services.AddScoped<IManagerConfigRtmInfoBaseManager, ConfigRtmInfoBaseManager>();
+            services.AddScoped<IManagerRtmInfoBase, RtmInfoBaseManager>();
+            services.AddScoped<IManager<Entities.Concrete.Pure.RtmInfoBase>, RtmInfoBaseManager>();
+
+            services.AddScoped<IManager<RtmModel>, RtmModelManager>();
+            services.AddScoped<IHttpClientHelper<RtmModel>, HttpClientHelper<RtmModel>>();
+            services.AddScoped<IManagerRtmModel, RtmModelManager>();
+
             services.AddScoped<IEntityRepository<Entities.Concrete.Pure.UserSession>, EfEntityRepositoryBase<Entities.Concrete.Pure.UserSession, SapAgentContext>>();
             services.AddScoped<IBaseDal<Entities.Concrete.Pure.UserSession>, UserSessionDal>();
             services.AddScoped<IManager<Entities.Concrete.Pure.UserSession>, UserSessionManager>();
@@ -201,6 +228,7 @@ namespace SapAgent.API
                 services.AddScoped<ISystemListClientWrapper, SystemListClientWrapper>();
                 services.AddScoped<ISystemFileClientWrapper, SystemFileClientWrapper>();
                 services.AddScoped<IKernelCompatClientWrapper, KernelCompatClientWrapper>();
+                services.AddScoped<IRtmInfoClientWrapper, RtmInfoClientWrapper>();
 
             }
             else

@@ -1,0 +1,66 @@
+﻿@model SapAgent.Entities.Concrete.Config.Scheduler
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Scheduler</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FuncId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FuncId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineMethod)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EngineMethod)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ScheduleType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RecurEvery)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RecurEvery)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WeekOn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WeekOn)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

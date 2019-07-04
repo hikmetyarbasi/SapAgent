@@ -8,7 +8,7 @@ namespace SapAgent.Business.Pure.Abstract
     public interface IManager<T>
     {
         int FunctionId { get; }
-        void Add(T entity);
+        T Add(T entity);
         Task<T[]> Get(string action);
         void Update(T entity);
         List<T> GetAll(Expression<Func<T, bool>> filter);

@@ -32,9 +32,9 @@ namespace SapAgent.Business.Pure.Concrete
         public int FunctionId { get; set; }
 
         
-        public virtual void Add(T entity)
+        public virtual T Add(T entity)
         {
-            _entityRepository.Add(entity);
+            return _entityRepository.Add(entity);
         }
 
         public void Upsert(T entity)
